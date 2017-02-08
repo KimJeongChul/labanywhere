@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
@@ -70,3 +70,9 @@ sudo tar xvzf spark-2.1.0-bin-hadoop2.6.tgz
 sudo mv spark-2.1.0-bin-hadoop2.6 /usr/local
 sudo rm spark-2.1.0-bin-hadoop2.6.tgz
 sudo ln -s /usr/local/spark-2.1.0-bin-hadoop2.6 /usr/local/spark
+
+# Install sbt
+echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+sudo apt-get update
+sudo apt-get install sbt
