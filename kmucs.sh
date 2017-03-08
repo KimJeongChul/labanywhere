@@ -21,7 +21,7 @@ sudo apt-get -y install r-base
 sudo apt-get -y install git
 
 # Install RBTools
-sudo apt-get -y install rbtools
+sudo apt-get -y install python-rbtools
 
 # Install MySQL
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password kmucs'
