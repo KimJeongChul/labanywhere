@@ -60,19 +60,19 @@ sudo pip3 install nltk
 sudo pip3 install scikit-learn
 
 # Install hadoop
-sudo wget http://ftp.daumkakao.com/apache/hadoop/core/hadoop-2.6.0/hadoop-2.6.0.tar.gz
-sudo tar xvzf hadoop-2.6.0.tar.gz
-sudo mv hadoop-2.6.0 /usr/local/
-sudo rm hadoop-2.6.0.tar.gz
-sudo ln -s /usr/local/hadoop-2.6.0 /usr/local/hadoop
+sudo wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+sudo tar xvzf hadoop-2.8.1.tar.gz
+sudo mv hadoop-2.8.1 /usr/local/
+sudo rm hadoop-2.8.1.tar.gz
+sudo ln -s /usr/local/hadoop-2.8.1 /usr/local/hadoop
 # Have to set eclipse to compile hadoop in eclipse
 
 # Install spark
-sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-2.1.0-bin-hadoop2.6.tgz
-sudo tar xvzf spark-2.1.0-bin-hadoop2.6.tgz
-sudo mv spark-2.1.0-bin-hadoop2.6 /usr/local
-sudo rm spark-2.1.0-bin-hadoop2.6.tgz
-sudo ln -s /usr/local/spark-2.1.0-bin-hadoop2.6 /usr/local/spark
+sudo wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz
+sudo tar xvzf spark-2.2.0-bin-hadoop2.7.tgz
+sudo mv spark-2.2.0-bin-hadoop2.7 /usr/local
+sudo rm spark-2.2.0-bin-hadoop2.7.tgz
+sudo ln -s /usr/local/spark-2.2.0-bin-hadoop2.7 /usr/local/spark
 
 # Install sbt
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
