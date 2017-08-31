@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Change apt repository
+sudo sed -i 's/kr.archive.ubuntu.com/ftp.daumkakao.com/g' /etc/apt/sources.list
+
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
