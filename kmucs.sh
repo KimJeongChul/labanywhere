@@ -15,7 +15,8 @@ sudo apt -y install build-essential
 # Install Java oracle-8
 sudo add-apt-repository -y ppa:webupd8team/java
 sudo apt -y update
-sudo debconf-set-selections <<< 'oracle-java8-installer shared/accepted-oracle-licnese-v1-1 select true'
+sudo apt-get install -y software-properties-common debconf-utils
+sudo echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
 sudo apt -y install oracle-java8-installer
 
 # Install Eclipse
@@ -32,7 +33,7 @@ sudo apt -y install python-rbtools
 
 # Install MySQL
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password kmucs'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password passwordi_again kmucs'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password kmucs'
 sudo apt -y install mysql-server
 
 # Install MySQL Workbench
