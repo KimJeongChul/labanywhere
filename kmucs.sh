@@ -40,29 +40,30 @@ sudo apt -y install mysql-server
 sudo apt -y install mysql-workbench
 
 # Install MySQL JDBC
-sudo apt -y install libmysql-java 
+sudo apt -y install libmysql-java
 # Install django
 sudo apt -y install python3-pip
 sudo pip3 install --upgrade pip
-sudo pip3 install django
+sudo pip3 install django -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
+
 
 # Install numpy
-sudo pip3 install numpy
+sudo pip3 install numpy -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install scipy
-sudo pip3 install scipy
+sudo pip3 install scipy -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install matplotlib
-sudo pip3 install matplotlib
+sudo pip3 install matplotlib -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install pyyaml
-sudo pip3 install pyyaml
+sudo pip3 install pyyaml -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install nltk
-sudo pip3 install nltk
+sudo pip3 install nltk -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install scikit-learn
-sudo pip3 install scikit-learn
+sudo pip3 install scikit-learn -i http://ftp.daumkakao.com/pypi/simple --trusted-host ftp.daumkakao.com
 
 # Install hadoop
 sudo wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
