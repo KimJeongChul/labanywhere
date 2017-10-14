@@ -6,6 +6,10 @@ main_download_mirror="ftp.daumkakao.com"
 apache_download_mirror="ftp.daumkakao.com"
 pip_download_mirror="ftp.daumkakao.com"
 
+# sourcelist info
+check_java_ppa="http://ppa.launchpad.net/webupd8team/java/ubuntu"
+check_sbt_ppa="https://dl.bintray.com/sbt/debian"
+
 # hadoop info
 hadoop_name="hadoop"
 hadoop_version="2.8.1"
@@ -59,7 +63,9 @@ sudo apt -y install vim
 sudo apt -y install build-essential
 
 # Install Java oracle-8
-sudo add-apt-repository -y ppa:webupd8team/java
+if ! grep -q "^deb .*$check_java_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+    sudo add-apt-repository -y ppa:webupd8team/java
+fi
 sudo apt -y update
 sudo apt install -y software-properties-common debconf-utils
 sudo echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
@@ -121,7 +127,9 @@ wget_install $spark_name $spark_version $spark_url $spark_zip
 sudo apt -y install apt-transport-https
 
 # Install sbt
-echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+if ! grep -q "^deb .*$check_sbt_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+    echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+fi
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
 sudo apt update
 sudo apt -y install sbt
