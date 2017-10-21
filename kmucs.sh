@@ -25,7 +25,7 @@ function install_logging(){
 }
 function delete_logging(){
     local value=$1
-    echo "temporary removed : \"$1\"">>$log
+    echo "temporary file removed : \"$1\"">>$log
     echo "---------------------------------------------------------------">>$log
 }
 # path
