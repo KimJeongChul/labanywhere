@@ -3,28 +3,30 @@
 notify-send  "Labanywhere" "Installation will begin. Please exit the other running programs." -u critical
 # logging msg
 notify-send  "Labanywhere" "All installation progress is recorded in the log file." -u critical
+
 # logging part
 DATELOG=`date "+%y%d%m"`
 log="Labanywhere_script_$DATELOG.log"
 kernel_version=`uname -r`
 
 function log_init(){
-    echo "============================================">$log
+    echo "===============================================================">$log
     echo "Labanywhere script $DATELOG report ">>$log
+    echo `date`>>$log
     echo " ">>$log
     lsb_release -a>>$log
     echo "kernerl:	$kernel_version">>$log
-    echo "============================================">>$log
+    echo "===============================================================">>$log
 }
 function install_logging(){
     local value=$1
     echo "program installed : \"$1\"">>$log
-    echo "--------------------------------------------">>$log
+    echo "---------------------------------------------------------------">>$log
 }
 function delete_logging(){
     local value=$1
     echo "temporary removed : \"$1\"">>$log
-    echo "--------------------------------------------">>$log
+    echo "---------------------------------------------------------------">>$log
 }
 # path
 local_path="/usr/local"
@@ -61,20 +63,19 @@ function wget_install(){
         sudo ln -s $local_path/$1-$2 $local_path/$1
         install_logging $1
     else 
-        echo "installed $1"
         install_logging $1
     fi
 }
 
 function apt_install(){ 
     local value=$1   
-    sudo apt -y install $1 2>&1
+    sudo apt-get -y install $1 | tee -a $log 2>&1
     install_logging $1 2>&1
 }
 
 function pip_install(){ 
     local value=$1   
-    sudo pip3 install $1 -i http://$pip_download_mirror/pypi/simple --trusted-host $pip_download_mirror 2>&1
+    sudo pip3 install $1 -i http://$pip_download_mirror/pypi/simple --trusted-host $pip_download_mirror | tee -a $log 2>&1
     install_logging $1 2>&1
 }
 
@@ -82,7 +83,7 @@ function pip_install(){
 function tmp_remove(){
     local value=$1 
     sudo rm $1 > /dev/null 2>&1
-    remove_logging $1
+    delete_logging $1
 }
 
 # Change apt repository
@@ -103,15 +104,15 @@ if ! grep -q "^deb .*$check_java_ppa" /etc/apt/sources.list /etc/apt/sources.lis
     sudo add-apt-repository -y ppa:webupd8team/java
 fi
 
-if ! which javac; then
+if ! type javac; then
     sudo apt -y update
     sudo apt install -y software-properties-common debconf-utils
     sudo echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo     debconf-set-selections
-    sudo apt -y install oracle-java8-installer
+    sudo apt-get -y install oracle-java8-installer | tee -a $log 2>&1
 fi
 
 if type javac >/dev/null 2>/dev/null; then
-    install_logging java
+    install_logging java | tee -a $log 2>&1
 fi
 
 # Install Eclipse
@@ -161,11 +162,11 @@ pip_install nltk
 pip_install scikit-learn
 
 # Install hadoop
-wget_install $hadoop_name $hadoop_version $hadoop_url $hadoop_zip
+wget_install $hadoop_name $hadoop_version $hadoop_url $hadoop_zip | tee -a $log
 # Have to set eclipse to compile hadoop in eclipse
 
 # Install spark
-wget_install $spark_name $spark_version $spark_url $spark_zip
+wget_install $spark_name $spark_version $spark_url $spark_zip | tee -a $log
 
 # Enable apt over https
 apt_install apt-transport-https
@@ -174,9 +175,15 @@ apt_install apt-transport-https
 if ! grep -q "^deb .*$check_sbt_ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
     echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 fi
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
-sudo apt update
-apt_install sbt
+if ! type sbt; then
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv      2EE0EA64E40A89B84B2DF73499E82A75642AC823
+    sudo apt update
+    sudo apt-get -y install sbt | tee -a $log
+fi
+
+if type sbt >/dev/null 2>/dev/null; then
+    install_logging sbt | tee -a $log
+fi
 
 # remove temporary files
 if [ -f "$hadoop_zip" ]; then
