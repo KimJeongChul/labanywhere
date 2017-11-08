@@ -1,6 +1,6 @@
 #!/bin/bash 
 #=================================================================================== 
-# # FILE: kmucs.sh 
+# # FILE: kmucs.sh
 # # USAGE: chmod +x kmucs.sh;./kmucs.sh
 # # DESCRIPTION: 표준 환경 목록에 따른 Hello World 파일 
 #===================================================================================
@@ -149,6 +149,23 @@ function cleanup(){
     delete_logging $1
 }	# ---------- end of function cleanup ---------
 
+#=== FUNCTION ================================================================== 
+# NAME: net_detect
+# DESCRIPTION: detect network
+#===============================================================================
+function net_detect(){
+    ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo "network connected... ok!" | tee -a $log 2>&1|| echo "network disconnected... error!" | tee -a $log 2>&1
+    echo "---------------------------------------------------------------">>$log
+}	# ---------- end of function net_detect ---------
+
+#=== FUNCTION ================================================================== 
+# NAME: find_info
+# DESCRIPTION: find computer name
+#===============================================================================
+function find_info(){
+    sudo dmidecode | grep -A3 '^System Information' >> $log
+    echo "---------------------------------------------------------------">>$log
+}	# ---------- end of function find_info ---------
 
 #----------------------------------------------------------------------
 # start notify
@@ -168,6 +185,16 @@ sudo sed -i "s/kr.archive.ubuntu.com/$main_mirror/g" /etc/apt/sources.list
 # start logging system
 #----------------------------------------------------------------------
 init_log
+
+#----------------------------------------------------------------------
+# checking internet
+#----------------------------------------------------------------------
+net_detect
+
+#----------------------------------------------------------------------
+# find computer info
+#----------------------------------------------------------------------
+find_info
 
 #----------------------------------------------------------------------
 # update/upgrade system
