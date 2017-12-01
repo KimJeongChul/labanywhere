@@ -150,13 +150,13 @@ function cleanup(){
 }	# ---------- end of function cleanup ---------
 
 #=== FUNCTION ================================================================== 
-# NAME: net_detect
+# NAME: detect_net
 # DESCRIPTION: detect network
 #===============================================================================
-function net_detect(){
+function detect_net(){
     ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo "network connected... ok!" | tee -a $log 2>&1|| echo "network disconnected... error!" | tee -a $log 2>&1
     echo "---------------------------------------------------------------">>$log
-}	# ---------- end of function net_detect ---------
+}	# ---------- end of function detect_net ---------
 
 #=== FUNCTION ================================================================== 
 # NAME: find_info
@@ -167,6 +167,25 @@ function find_info(){
     echo "---------------------------------------------------------------">>$log
 }	# ---------- end of function find_info ---------
 
+#=== FUNCTION ================================================================== 
+# NAME: detect_windows
+# DESCRIPTION: detect bash on windows
+#===============================================================================
+function detect_windows(){
+    if grep -q Microsoft /proc/version; then
+    echo "This system may be Windows environment. Some features(GUI ect...) are limited in Windows Bash."
+    echo "You can not install the script on this system."
+    init_log
+    echo "This system may be Windows environment. Some features(GUI ect...) are limited in Windows Bash.">>$log
+    echo "You can not install the script on this system.">>$log
+    exit
+    fi
+}	# ---------- end of function detect_windows ---------
+
+#----------------------------------------------------------------------
+# Before starting, detecting Windows bash
+#----------------------------------------------------------------------
+detect_windows
 #----------------------------------------------------------------------
 # start notify
 #----------------------------------------------------------------------
@@ -189,7 +208,7 @@ init_log
 #----------------------------------------------------------------------
 # checking internet
 #----------------------------------------------------------------------
-net_detect
+detect_net
 
 #----------------------------------------------------------------------
 # find computer info
